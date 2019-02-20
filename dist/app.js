@@ -1,16 +1,32 @@
-"use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _lodash = require("lodash");
-
-var _axios = _interopRequireDefault(require("axios"));
-
-(0, _lodash.debounce)(function () {});
-var _default = {};
-exports.default = _default;
+import sinaif from "./sinaif/v01";
+import Axios from "axios";
+export function axios(def) {
+    var ax = Axios;
+    if (typeof def == "object") {
+        for (var k in def) {
+            ax.defaults[k] = def[k];
+        }
+    }
+    ax.use = function (type, def) {
+        var instance = ax;
+        if (type == "FormData") {
+            instance = ax.create(Object.assign(def, {
+                transformRequest: [function (data) {
+                        var ret = [];
+                        for (var it in data) {
+                            ret.push(encodeURIComponent(it) + '=' + encodeURIComponent(data[it]));
+                        }
+                        return ret.join("&");
+                    }],
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            }));
+        }
+        for (var k in def) {
+            instance.defaults[k] = def[k];
+        }
+        return instance;
+    };
+}
+export var SINAIF = sinaif;
