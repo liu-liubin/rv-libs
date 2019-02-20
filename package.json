@@ -1,25 +1,24 @@
 {
-  "name": "rival",
+  "name": "rival-libs",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/rival.js",
+  "description": "desc test",
+  "main": "dist/",
   "scripts": {
     "build": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "rival",
+  "author": "rival-liu",
   "license": "ISC",
   "files": [
     "dist",
     "src"
   ],
+  "bundleDepencies": false,
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "@babel/runtime-corejs2": "^7.3.1",
     "axios": "^0.18.0",
-    "lodash": "^4.17.11",
-    "swiper": "^4.4.6",
-    "typescript": "^3.3.3"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -32,5 +31,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rival-liu/rv-libs.git"
-  }
+  },
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts"
 }

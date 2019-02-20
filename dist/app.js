@@ -1,7 +1,8 @@
-import sinaif from "./sinaif/v01";
-import Axios from "axios";
-export function axios(def) {
-    var ax = Axios;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = require("axios");
+function axios(def) {
+    var ax = axios_1.default;
     if (typeof def == "object") {
         for (var k in def) {
             ax.defaults[k] = def[k];
@@ -29,4 +30,4 @@ export function axios(def) {
         return instance;
     };
 }
-export var SINAIF = sinaif;
+exports.axios = axios;

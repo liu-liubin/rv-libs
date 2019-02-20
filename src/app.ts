@@ -1,4 +1,3 @@
-import sinaif from "./sinaif/v01";
 import Axios from "axios";
 export function axios(def:any){
   let ax:any = Axios;
@@ -30,5 +29,3 @@ export function axios(def:any){
   }
   
 }
-
-export let SINAIF:any=sinaif;
