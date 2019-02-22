@@ -1,4 +1,3 @@
-"use strict";
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -10,7 +9,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var win = window;
 var UPDATA;
 var Sinaif = (function () {
@@ -301,4 +299,4 @@ SINAIF.restart = function () {
     }
 };
 win.restart = SINAIF.restart;
-exports.default = SINAIF;
+export default SINAIF;

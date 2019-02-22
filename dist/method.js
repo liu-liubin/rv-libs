@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var win = window;
-exports.getQuery = function (key, str) {
+export var getQuery = function (key, str) {
     if (win.__querys__) {
         return key ? win.__querys__[key] : win.__querys__;
     }
@@ -23,7 +21,7 @@ exports.getQuery = function (key, str) {
     win.__querys__ = obj;
     return key ? obj[key] : obj;
 };
-exports.deepAssgin = function (obj1, obj2) {
+export var deepAssgin = function (obj1, obj2) {
     var toString = Object.prototype.toString;
     try {
         if (!Object.keys(obj1).length && obj2) {
@@ -46,7 +44,7 @@ exports.deepAssgin = function (obj1, obj2) {
                         continue;
                     }
                     if (toString.call(obj1[k]) == "[object Object]" && toString.call(obj2[k]) == "[object Object]") {
-                        exports.deepAssgin(obj1[k], obj2[k]);
+                        deepAssgin(obj1[k], obj2[k]);
                     }
                     else {
                         obj1[k] = obj2[k];
@@ -60,7 +58,7 @@ exports.deepAssgin = function (obj1, obj2) {
         return {};
     }
 };
-exports.formatTemplate = function (result, args) {
+export var formatTemplate = function (result, args) {
     if (arguments.length > 1) {
         if (arguments.length == 2 && typeof (args) == "object") {
             for (var key in args) {
@@ -109,7 +107,7 @@ var browser = (function () {
         uc: u.match(/UCBrowser.*AliApp/i),
     };
 }());
-exports.getDevice = function (key) {
+export var getDevice = function (key) {
     if (win.__devices__) {
         return key ? win.__devices__[key] : win.__devices__;
     }
@@ -128,7 +126,7 @@ exports.getDevice = function (key) {
     win.__devices__ = obj;
     return key ? obj[key] : obj;
 };
-exports.dropDown = function (ele, obj) {
+export var dropDown = function (ele, obj) {
     if (typeof ele != "object") {
         return;
     }

@@ -1,16 +1,20 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "es2015",
     "declaration": true,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
     "outDir": "dist",
-    "strict": true
+    "strict": true,
+    "moduleResolution":"node"
   },
   "include": [
     "src/**/*",
-    "**/*.d.ts"
+    "index.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
