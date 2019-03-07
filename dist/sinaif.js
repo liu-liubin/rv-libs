@@ -9,8 +9,8 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+import { getDevice, getQuery } from "./method";
 var win = window;
-var UPDATA;
 var Sinaif = (function () {
     function Sinaif() {
         this.callBackAction = [];
@@ -217,66 +217,211 @@ var Sinaif = (function () {
     };
     Sinaif.prototype.updata = function (name, data) {
         var _this = this;
-        var obj = {
-            dateformat: function () {
-                var times = new Date();
-                var str = "";
-                str =
-                    times.getFullYear() +
-                        "/" +
-                        (times.getMonth() + 1) +
-                        "/" +
-                        times.getDate() +
-                        " " +
-                        times.getHours() +
-                        ":" +
-                        times.getMinutes() +
-                        ":" +
-                        times.getSeconds();
-                return str;
-            },
-            start: function (opt, fn) {
-                console.log("新浪爱问普惠统计服务开始!");
-                if (opt instanceof Object) {
-                    for (var k in opt) {
-                        if (k == "forClient" || k == "cfgId" || k == "batch") {
-                            _this.updataConfig.qsjParams.sourceEventParams[k] = opt[k];
-                        }
-                        else {
-                            _this.updataConfig.qsjParams[k] = opt[k] || "";
-                        }
-                    }
-                }
-                else {
-                    console.error("请设置设备信息对象参数,如：{forClient,cfgId,batch}");
-                }
-                if (fn instanceof Function) {
-                    _this.updataConfig.qjsCallback = fn;
-                }
-                else {
-                    console.error("start方法请传入回调执行函数");
-                }
-                if (name == "qsj") {
-                    _this.updataConfig.qjsCallback(UPDATA.qsj(_this.updataConfig.qsjParams));
-                }
-                else {
-                    console.error("不能使用该服务");
-                }
-            }
-        };
-        if (name == "gio") {
-            UPDATA.gio();
-        }
-        if (name == "sensors") {
-            UPDATA.sensors();
-        }
+        name == "gio" && UPDATA.gio();
+        name == "sensors" && UPDATA.sensors();
         if (name == "qsj" && data instanceof Object) {
             this.updataConfig.qjsCallback(UPDATA.qsj(__assign({}, this.updataConfig.qsjParams, data), this.updataConfig.qjsCallback));
         }
-        return obj;
     };
     return Sinaif;
 }());
+var UPDATA = {
+    qsjConfig: {},
+    dateformat: function () {
+        var times = new Date();
+        var str = "";
+        str =
+            times.getFullYear() +
+                "/" +
+                (times.getMonth() + 1) +
+                "/" +
+                times.getDate() +
+                " " +
+                times.getHours() +
+                ":" +
+                times.getMinutes() +
+                ":" +
+                times.getSeconds();
+        return str;
+    },
+    start: function (opt, fn) {
+        var _this = this;
+        console.log("新浪爱问普惠统计服务开始!");
+        if (opt instanceof Object) {
+            for (var k in opt) {
+                if (k == "forClient" || k == "cfgId" || k == "batch") {
+                    _this.qsjConfig.sourceEventParams[k] = opt[k];
+                }
+                else {
+                    _this.qsjConfig[k] = opt[k] || "";
+                }
+            }
+        }
+        else {
+            console.error("请设置设备信息对象参数,如：{forClient,cfgId,batch}");
+        }
+        if (fn instanceof Function) {
+            _this.qsjConfig.CALLBACK = fn;
+        }
+        else {
+            console.error("start方法请传入回调执行函数");
+        }
+        if (name == "qsj") {
+            _this.qsjConfig.CALLBACK(_this.qsj(_this.qsjConfig));
+        }
+        else {
+            console.error("不能使用该服务");
+        }
+    },
+    gio: function () {
+        window.onload = function () {
+            ;
+            (function (e, t, n, g, i) {
+                e[i] = e[i] || function () {
+                    (e[i].q = e[i].q || []).push(arguments);
+                };
+                n = t.createElement("script");
+                n.async = 1;
+                n.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + g;
+                var tag = document.head.getElementsByTagName("script")[0];
+                tag ? tag.parentNode.insertBefore(n, tag) : document.head.appendChild(n);
+            })(window, document, "script", "assets.growingio.com/2.1/gio.js", "gio");
+            win.gio('init', 'be0bf9e8f4f1b9d4', {});
+            win.gio('send');
+        };
+    },
+    sensors: function () {
+        ;
+        (function (para) {
+            var p = para.sdk_url, n = para.name, w = window, d = document, s = 'script', x = null, y = null;
+            if (typeof (w['sensorsDataAnalytic201505']) !== 'undefined') {
+                return false;
+            }
+            w['sensorsDataAnalytic201505'] = n;
+            w[n] = w[n] || function (a) { return function () { (w[n]._q = w[n]._q || []).push([a, arguments]); }; };
+            var ifs = ['track', 'quick', 'register', 'registerPage', 'registerOnce', 'trackSignup', 'trackAbtest', 'setProfile', 'setOnceProfile', 'appendProfile', 'incrementProfile', 'deleteProfile', 'unsetProfile', 'identify', 'login', 'logout', 'trackLink', 'clearAllRegister', 'getAppStatus'];
+            for (var i = 0; i < ifs.length; i++) {
+                w[n][ifs[i]] = w[n].call(null, ifs[i]);
+            }
+            if (!w[n]._t) {
+                x = d.createElement(s), y = d.getElementsByTagName(s)[0];
+                x.async = 1;
+                x.src = p;
+                x.setAttribute('charset', 'UTF-8');
+                y.parentNode.insertBefore(x, y);
+                w[n].para = para;
+            }
+        })({
+            sdk_url: 'https://static.sensorsdata.cn/sdk/1.12.5/sensorsdata.min.js',
+            heatmap_url: 'https://static.sensorsdata.cn/sdk/1.12.5/heatmap.min.js',
+            name: 'sensors',
+            server_url: 'https://xinlangpuhui.datasink.sensorsdata.cn/sa?token=22252313ae4a6a1a',
+            heatmap: {}
+        });
+        win.sensors.quick('autoTrack');
+    },
+    qsj: function (data) {
+        var _this = this;
+        if (data instanceof Object == false) {
+            data = {};
+        }
+        if (_this.qsjConfig.CALLBACK instanceof Function === false) {
+            console.error("请执行start初始化任务");
+            return false;
+        }
+        var _PARAMS = {
+            timeStr: new Date(),
+            productId: data.productId || getQuery("productId") || "",
+            accountId: data.fromUserId || getQuery('fromUserId') || "",
+            channel: data.channel || getQuery('channel') || "",
+            appVersion: data.appVersion || getQuery('appVersion') || "",
+            deviceId: data.deviceId || getQuery('deviceId') || "",
+            source: data.source || getQuery("source") || data.productId || getQuery("productId"),
+            mobileSystem: getDevice("os"),
+            visitStartTime: +new Date(),
+            exposureData: [],
+            currentEventCode: data.currentEventCode || window.location.href,
+            currentEventParams: data.currentEventParams,
+            sourceEventCode: data.sourceEventCode || window.location.href,
+            sourceEventParams: data.sourceEventParams,
+            json: JSON.stringify([]),
+        };
+        if (/^ad_|tab_/.test(_PARAMS.currentEventCode) && typeof _PARAMS.currentEventParams != "object") {
+            console.warn("currentEventParams参数有误");
+        }
+        else if (/^url_exposure/.test(_PARAMS.currentEventCode)) {
+            var dom = _PARAMS.currentEventCode.substr(12);
+            try {
+                if (!win.ISURLEXPOSURE) {
+                    var domItem = document.querySelectorAll(dom);
+                    var DomViews_1 = [];
+                    for (var i = 0; i < domItem.length; i++) {
+                        DomViews_1.push({
+                            ispost: false,
+                            index: i,
+                            offsetTop: _this.getDomOffset(domItem[i]),
+                            offsetHeight: domItem[i].offsetHeight
+                        });
+                    }
+                    _PARAMS.currentEventParams = [];
+                    for (var _i = 0, _a = _this.getDomView(DomViews_1); _i < _a.length; _i++) {
+                        var v = _a[_i];
+                        if (!DomViews_1[v.index].ispost) {
+                            _PARAMS.currentEventParams.push(_PARAMS.exposureData[v.index]);
+                            DomViews_1[v.index].ispost = true;
+                        }
+                    }
+                    win.addEventListener("scroll", function () {
+                        _PARAMS.currentEventParams = [];
+                        for (var _i = 0, _a = _this.getDomView(DomViews_1); _i < _a.length; _i++) {
+                            var v = _a[_i];
+                            if (!DomViews_1[v.index].ispost) {
+                                _PARAMS.currentEventParams.push(DomViews_1[v.index]);
+                                DomViews_1[v.index].ispost = true;
+                            }
+                        }
+                        if (_PARAMS.currentEventParams.length > 0) {
+                            _this.qsjConfig.CALLBACK instanceof Function && _this.qsjConfig.CALLBACK({ json: "[" + JSON.stringify(_PARAMS) + "]" });
+                        }
+                    });
+                    win.ISURLEXPOSURE = true;
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+            _PARAMS.currentEventCode = "url_exposure";
+        }
+        else if (_PARAMS.currentEventCode == _PARAMS.sourceEventCode) {
+            _PARAMS.currentEventParams = getQuery();
+        }
+        if (!_PARAMS.deviceId) {
+            console.warn("请传入deviceId");
+        }
+        _PARAMS.currentEventParams = typeof (_PARAMS.currentEventParams) == "object" ? JSON.stringify(_PARAMS.currentEventParams) : _PARAMS.currentEventParams;
+        _PARAMS.sourceEventParams = typeof (_PARAMS.sourceEventParams) == "object" ? JSON.stringify(_PARAMS.sourceEventParams) : _PARAMS.sourceEventParams;
+        return { json: "[" + JSON.stringify(_PARAMS) + "]" };
+    },
+    getDomOffset: function (dom) {
+        var offsetTop = dom.offsetTop;
+        while (dom = dom.offsetParent) {
+            offsetTop += dom.offsetTop;
+        }
+        return offsetTop;
+    },
+    getDomView: function (domsdata) {
+        var len = domsdata.length;
+        var winHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var viewdoms = [];
+        for (var i = 0; i < len; i++) {
+            if (domsdata[i].offsetTop + domsdata[i].offsetHeight - 20 > scrollTop && domsdata[i].offsetTop + 20 < scrollTop + winHeight) {
+                viewdoms.push(domsdata[i]);
+            }
+        }
+        return viewdoms;
+    }
+};
 var SINAIF = new Sinaif();
 win.sendData = function (data, callbackname) {
     data = data.replace(/\n/g, " ");

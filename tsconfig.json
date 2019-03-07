@@ -8,6 +8,7 @@
     "preserveConstEnums": true,
     "outDir": "dist",
     "strict": true,
+    "strictNullChecks": false,
     "moduleResolution":"node"
   },
   "include": [
